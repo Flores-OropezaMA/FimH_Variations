@@ -202,7 +202,44 @@ Serotype it is the union of that information. While \textbf{M}ulti
 
 This script its a sequence report of the analysis of FimH sequences.
 
-\includegraphics[width=23.35417in,height=3.125in]{images/Fig1-01.pdf}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Load the next libraries.}
+\FunctionTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\CommentTok{\#Create a graphic}
+\NormalTok{Genomes\_Year\_Country }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{ (}\AttributeTok{data =}\NormalTok{ database, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Country, }\AttributeTok{y=}\NormalTok{ Year)) }\SpecialCharTok{+} \FunctionTok{geom\_count}\NormalTok{(}\AttributeTok{color=}\StringTok{"Blue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Origin and year of colection of UPEC strains"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Figure 1."}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_classic}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\DecValTok{8}\NormalTok{, }\AttributeTok{angle=}\DecValTok{90}\NormalTok{))}
+\NormalTok{Genomes\_Year\_Country}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 5 rows containing non-finite values (stat_sum).
+\end{verbatim}
+
+\includegraphics{Report_files/figure-latex/Figure1-1.pdf}
 
 The image showed clearly that we have analysis sequence in the period of
 2010 to 2020, the distribution also showed a dominance of USA data, with
@@ -251,7 +288,14 @@ The Urinary tract Infections (UTI) versus the Recurrent ITU.
 With this new data we can make a graphic that allow four variables to
 compare the UTI vs RUTI strains.
 
-\includegraphics[width=32.89583in,height=5.20833in]{images/Fig2.pdf}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Four\_variables\_graph }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{ (}\AttributeTok{data =}\NormalTok{ RUTI\_vs\_UTI, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{y=}\NormalTok{Phylogroup, }\AttributeTok{x=}\NormalTok{Disease, }\AttributeTok{color=}\NormalTok{ Year)) }\SpecialCharTok{+} \FunctionTok{geom\_count}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"UTI versus RUTI"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Figure 2."}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{facet\_wrap}\NormalTok{(}\StringTok{"MLST"}\NormalTok{)}\SpecialCharTok{+} \FunctionTok{theme\_bw}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{size=}\DecValTok{8}\NormalTok{, }\AttributeTok{angle=}\DecValTok{90}\NormalTok{))}
+\NormalTok{Four\_variables\_graph}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Report_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 With that information we clearly see that are MLST exclusive for RUTI
 and for UTI. In 4, 43, 471, and 494, are for UTI strains, while 1, 1193,
@@ -287,11 +331,73 @@ file was called FimH\_pb.txt
 \end{verbatim}
 
 This data base was analyse using the Mesquite program, in this scenario
-a alignment with Clustal W and tree was performed.
+a alignment with Clustal W and tree was performed. The data showed that
+the RUTI strains are located around of the UTI. Cleary that the FimH
+allele are not related with the RUTI phenotype.
 
-\includegraphics{images/tree.tif}
+\includegraphics{images/tree-02.jpg}
 
-In red ther a is clear the
+However, with the Beauti and Beast programs, we develop a Bayesian
+analysis, to obtain a likelihood probability, based in RUTI trait.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Import data set of Beast. *.log data contain, likelihood, frecuency, position.}
+\NormalTok{FimH\_pb.log }\OtherTok{\textless{}{-}} \FunctionTok{read.delim}\NormalTok{(}\StringTok{"\textasciitilde{}/GitHub/FimH\_Variations/data/FimH\_pb.log.txt"}\NormalTok{, }\AttributeTok{comment.char=}\StringTok{"\#"}\NormalTok{)}
+\CommentTok{\#With a frecuency graphic we can considerate if there are a posible selection.}
+\NormalTok{frecuency}\OtherTok{\textless{}{-}}\FunctionTok{ggplot}\NormalTok{(FimH\_pb.log, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x=}\NormalTok{frequencies1)) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{bins =} \DecValTok{50}\NormalTok{, }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}\FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Histogram of the frecuency of Likelihood"}\NormalTok{, }\AttributeTok{caption =} \StringTok{"Figure 3."}\NormalTok{)}
+\NormalTok{frecuency}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Report_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+In the graphic of frequency, we can see that the data are centered,
+indicative that maybe we don't have a selective presion. Also, the
+calculate likelihood it is not significative, because the results are
+minor to zero.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{neutral}\OtherTok{\textless{}{-}}\FunctionTok{subset}\NormalTok{(FimH\_pb.log,FimH\_pb.log}\SpecialCharTok{$}\NormalTok{likelihood }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)}
+\NormalTok{problem}\OtherTok{\textless{}{-}}\FunctionTok{subset}\NormalTok{(FimH\_pb.log,FimH\_pb.log}\SpecialCharTok{$}\NormalTok{treeLikelihood }\SpecialCharTok{\textgreater{}}\DecValTok{0}\NormalTok{)}
+\NormalTok{neutral}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] state                joint                prior               
+##  [4] likelihood           treeModel.rootHeight age.root.           
+##  [7] treeLength           tmrca.RUTI.          age.RUTI.           
+## [10] constant.popSize     kappa                frequencies1        
+## [13] frequencies2         frequencies3         frequencies4        
+## [16] clock.rate           meanRate             treeLikelihood      
+## [19] branchRates          coalescent          
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{problem}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] state                joint                prior               
+##  [4] likelihood           treeModel.rootHeight age.root.           
+##  [7] treeLength           tmrca.RUTI.          age.RUTI.           
+## [10] constant.popSize     kappa                frequencies1        
+## [13] frequencies2         frequencies3         frequencies4        
+## [16] clock.rate           meanRate             treeLikelihood      
+## [19] branchRates          coalescent          
+## <0 rows> (or 0-length row.names)
+\end{verbatim}
+
+\hypertarget{conclusions}{%
+\subsubsection{Conclusions}\label{conclusions}}
+
+There are not signs of adtaptative evolution in fimH gene from a
+Bayesian analysis of RUTI versus ITU.
 
 \hypertarget{bibliografuxeda}{%
 \subsubsection{Bibliografía:}\label{bibliografuxeda}}

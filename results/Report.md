@@ -139,12 +139,8 @@ nrow(RUTI_vs_UTI)
 With this new data we can make a graphic that allow four variables to compare the UTI vs RUTI strains.
 
 
-```r
-Four_variables_graph <- ggplot (data = RUTI_vs_UTI, mapping = aes(y=Phylogroup, x=Disease, color= Year)) + geom_count() + labs(title = "UTI versus RUTI", caption = "Figure 2.") + facet_wrap("MLST")+ theme_bw() + theme(axis.text.x = element_text(size=8, angle=90))
-Four_variables_graph
-```
 
-![](Report_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](images/Sin%20t%C3%ADtulo.jpg)
 
 With that information we clearly see that are MLST exclusive for RUTI and for UTI. In 4, 43, 471, and 494, are for UTI strains, while 1, 1193, 129, 199, 24, 295, 736, and 77 are ST exclusive for RUTI. A brief search in PubMed, associated 1193 ST with a multidrug resistant bacteria.
 
@@ -170,11 +166,61 @@ head (fimH_database)
 ## 6 CACCAGCGAAACGCCGCGGGTTGTTTATAATTCGAGAACGGATAAGCCGTGGCCGGTGGCGCTTTATTTGACGCCTGTGA
 ```
 
-This data base was analyse using the Mesquite program, in this scenario a alignment with Clustal W and tree was performed.
+This data base was analyse using the Mesquite program, in this scenario a alignment with Clustal W and tree was performed. The data showed that the RUTI strains are located around of the UTI. Cleary that the FimH allele are not related with the RUTI phenotype.
 
-n red ther a is clear the
+![](images/tree-03.jpg)
+
+However, with the Beauti and Beast programs, we develop a Bayesian analysis, to obtain a likelihood probability, based in RUTI trait.
 
 
+```r
+#Import data set of Beast. *.log data contain, likelihood, frecuency, position.
+FimH_pb.log <- read.delim("~/GitHub/FimH_Variations/data/FimH_pb.log.txt", comment.char="#")
+#With a frecuency graphic we can considerate if there are a posible selection.
+frecuency<-ggplot(FimH_pb.log, aes(x=frequencies1)) + geom_histogram(bins = 50, color = "black", fill = "blue") + theme_minimal() +labs(title = "Histogram of the frecuency of Likelihood", caption = "Figure 3.")
+frecuency
+```
+
+![](Report_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+In the graphic of frequency, we can see that the data are centered, indicative that maybe we don't have a selective presion. Also, the calculate likelihood it is not significative, because the results are minor to zero.
+
+
+```r
+neutral<-subset(FimH_pb.log,FimH_pb.log$likelihood > 0)
+problem<-subset(FimH_pb.log,FimH_pb.log$treeLikelihood >0)
+neutral
+```
+
+```
+##  [1] state                joint                prior               
+##  [4] likelihood           treeModel.rootHeight age.root.           
+##  [7] treeLength           tmrca.RUTI.          age.RUTI.           
+## [10] constant.popSize     kappa                frequencies1        
+## [13] frequencies2         frequencies3         frequencies4        
+## [16] clock.rate           meanRate             treeLikelihood      
+## [19] branchRates          coalescent          
+## <0 rows> (or 0-length row.names)
+```
+
+```r
+problem
+```
+
+```
+##  [1] state                joint                prior               
+##  [4] likelihood           treeModel.rootHeight age.root.           
+##  [7] treeLength           tmrca.RUTI.          age.RUTI.           
+## [10] constant.popSize     kappa                frequencies1        
+## [13] frequencies2         frequencies3         frequencies4        
+## [16] clock.rate           meanRate             treeLikelihood      
+## [19] branchRates          coalescent          
+## <0 rows> (or 0-length row.names)
+```
+
+### Conclusions
+
+There are not signs of adtaptative evolution in fimH gene from a Bayesian analysis of RUTI versus ITU.
 
 ### Bibliografía:
 
