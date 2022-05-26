@@ -1,0 +1,12 @@
+Summary Statistic	likelihood
+mean	-14537.0177
+stderr of mean	902.8575
+stdev	1623.9908
+variance	2.6373E6
+median	-13850.4567
+value range	[-17910.3587, -13079.7332]
+geometric mean	n/a
+95% HPD interval	[-17648.4637, -13089.176]
+auto-correlation time (ACT)	2.7823E6
+effective sample size (ESS)	3.2
+number of samples	9001
